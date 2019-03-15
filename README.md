@@ -188,10 +188,9 @@ TEST DATA
 ------------------------------
 RMSE :  1.0890322448240302
 MAPE :  35.13968692492444
-4.4.2 Suprise BaselineModel 
+### 4.4.2 Suprise BaselineModel 
 
 
-Predicted_rating : ( baseline prediction )
 
 Test Data
 ---------------
@@ -238,9 +237,6 @@ MAPE :  35.188974153659295
 
 ### 4.4.6 Matrix Factorization Techniques
 ### 4.4.6.1 SVD Matrix Factorization User Movie intractions
- Predicted Rating :
-
-- 
 Test Data
 ---------------
 RMSE : 1.0860031195730506
