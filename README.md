@@ -193,20 +193,6 @@ MAPE :  35.13968692492444
 
 Predicted_rating : ( baseline prediction )
 
--  http://surprise.readthedocs.io/en/stable/basic_algorithms.html#surprise.prediction_algorithms.baseline_only.BaselineOnly 
-
-    $ \large {\hat{r}_{ui} = b_{ui} =\mu + b_u + b_i} $
-
-    $\pmb \mu $ : Average of all trainings in training data.
-    $\pmb b_u$ : User bias
-    $\pmb b_i$ : Item bias (movie biases)
-
-Optimization function ( Least Squares Problem )
-
-- http://surprise.readthedocs.io/en/stable/prediction_algorithms.html#baselines-estimates-configuration 
-
-    $ \large \sum_{r_{ui} \in R_{train}} \left(r_{ui} - (\mu + b_u + b_i)\right)^2 + \lambda \left(b_u^2 + b_i^2 \right).\text { [mimimize } {b_u, b_i]}$
-
 Test Data
 ---------------
 RMSE : 1.0865215481719563
@@ -221,32 +207,6 @@ RMSE :  1.0891181427027241
 MAPE :  35.13135164276489
 
 
-### 4.4.4 Surprise KNNBaseline predictor
-
-
-    KNN BASELINE
-        http://surprise.readthedocs.io/en/stable/knn_inspired.html#surprise.prediction_algorithms.knns.KNNBaseline
-
-    PEARSON_BASELINE SIMILARITY
-        http://surprise.readthedocs.io/en/stable/similarities.html#surprise.similarities.pearson_baseline
-
-    SHRINKAGE
-        2.2 Neighborhood Models in http://courses.ischool.berkeley.edu/i290-dm/s11/SECURE/a1-koren.pdf
-
-    predicted Rating : ( based on User-User similarity )
-
-$$\begin{align} \hat{r}_{ui} = b_{ui} + \frac{ \sum\limits_{v \in N^k_i(u)} \text{sim}(u, v) \cdot (r_{vi} - b_{vi})} {\sum\limits_{v \in N^k_i(u)} \text{sim}(u, v)} \end{align}$$
-
-    $\pmb{b_{ui}}$ - Baseline prediction of (user,movie) rating
-
-    $ \pmb {N_i^k (u)}$ - Set of K similar users (neighbours) of user (u) who rated movie(i)
-
-    sim (u, v) - Similarity between users u and v
-        Generally, it will be cosine similarity or Pearson correlation coefficient.
-        But we use shrunk Pearson-baseline correlation coefficient, which is based on the pearsonBaseline similarity ( we take base line predictions instead of mean rating of user/item)
-
-    Predicted rating ( based on Item Item similarity ): $$\begin{align} \hat{r}<em>{ui} = b</em>{ui} + \frac{ \sum\limits_{j \in N^k<em>u(i)}\text{sim}(i, j) \cdot (r</em>{uj} - b<em>{uj})} {\sum\limits</em>{j \in N^k_u(j)} \text{sim}(i, j)} \end{align}$$
-        Notations follows same as above (user user based predicted rating )
 
 ### 4.4.4.1 Surprise KNNBaseline with user user similarities
 ---------------
@@ -276,23 +236,11 @@ RMSE :  1.088749005744821
 MAPE :  35.188974153659295
 
 
-### ### 4.4.6 Matrix Factorization Techniques
+### 4.4.6 Matrix Factorization Techniques
 ### 4.4.6.1 SVD Matrix Factorization User Movie intractions
  Predicted Rating :
 
-- $ \large  \hat r_{ui} = \mu + b_u + b_i + q_i^Tp_u $
-
-    - $\pmb q_i$ - Representation of item(movie) in latent factor space
-
-    - $\pmb p_u$ - Representation of user in new latent factor space
-
-    A BASIC MATRIX FACTORIZATION MODEL in https://datajobs.com/data-science-repo/Recommender-Systems-[Netflix].pdf
-
-- Optimization problem with user item interactions and regularization (to avoid overfitting)
-
-- $\large \sum_{r_{ui} \in R_{train}} \left(r_{ui} - \hat{r}_{ui} \right)^2 +
-
-\lambda\left(b_i^2 + b_u^2 + ||q_i||^2 + ||p_u||^2\right) $
+- 
 Test Data
 ---------------
 RMSE : 1.0860031195730506
@@ -305,22 +253,7 @@ MAPE : 34.94819349312387
 
 
 
-    -----> 2.5 Implicit Feedback in http://courses.ischool.berkeley.edu/i290-dm/s11/SECURE/a1-koren.pdf
-
-- Predicted Rating :
-
-- $ \large \hat{r}_{ui} = \mu + b_u + b_i + q_i^T\left(p_u +
-|I_u|^{-\frac{1}{2}} \sum_{j \in I_u}y_j\right) $ 
-
-    $ \pmb{I_u}$ --- the set of all items rated by user u
-
-    $\pmb{y_j}$ --- Our new set of item factors that capture implicit ratings.
-
-- Optimization problem with user item interactions and regularization (to avoid overfitting)
-
-- $ \large \sum_{r_{ui} \in R_{train}} \left(r_{ui} - \hat{r}_{ui} \right)^2 +
-
-\lambda\left(b_i^2 + b_u^2 + ||q_i||^2 + ||p_u||^2 + ||y_j||^2\right) $
+    
 Test Data
 ---------------
 RMSE : 1.0862780572420558
