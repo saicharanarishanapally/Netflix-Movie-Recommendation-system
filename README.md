@@ -62,75 +62,9 @@ CustomerIDs range from 1 to 2649429, with gaps. There are 480189 users.
 Ratings are on a five star (integral) scale from 1 to 5.
 Dates have the format YYYY-MM-DD.
 
-### 2.1.2 Example Data point
-
-1:
-1488844,3,2005-09-06
-822109,5,2005-05-13
-885013,4,2005-10-19
-30878,4,2005-12-26
-823519,3,2004-05-03
-893988,3,2005-11-17
-124105,4,2004-08-05
-1248029,3,2004-04-22
-1842128,4,2004-05-09
-2238063,3,2005-05-11
-1503895,4,2005-05-19
-2207774,5,2005-06-06
-2590061,3,2004-08-12
-2442,3,2004-04-14
-543865,4,2004-05-28
-1209119,4,2004-03-23
-804919,4,2004-06-10
-1086807,3,2004-12-28
-1711859,4,2005-05-08
-372233,5,2005-11-23
-1080361,3,2005-03-28
-1245640,3,2005-12-19
-558634,4,2004-12-14
-2165002,4,2004-04-06
-1181550,3,2004-02-01
-1227322,4,2004-02-06
-427928,4,2004-02-26
-814701,5,2005-09-29
-808731,4,2005-10-31
-662870,5,2005-08-24
-337541,5,2005-03-23
-786312,3,2004-11-16
-1133214,4,2004-03-07
-1537427,4,2004-03-29
-1209954,5,2005-05-09
-2381599,3,2005-09-12
-525356,2,2004-07-11
-1910569,4,2004-04-12
-2263586,4,2004-08-20
-2421815,2,2004-02-26
-1009622,1,2005-01-19
-1481961,2,2005-05-24
-401047,4,2005-06-03
-2179073,3,2004-08-29
-1434636,3,2004-05-01
-93986,5,2005-10-06
-1308744,5,2005-10-29
-2647871,4,2005-12-30
-1905581,5,2005-08-16
-2508819,3,2004-05-18
-1578279,1,2005-05-19
-1159695,4,2005-02-15
-2588432,3,2005-03-31
-2423091,3,2005-09-12
-470232,4,2004-04-08
-2148699,2,2004-06-05
-1342007,3,2004-07-16
-466135,4,2004-07-13
-2472440,3,2005-08-13
-1283744,3,2004-04-17
-1927580,4,2004-11-08
-716874,5,2005-05-06
-4326,4,2005-10-29
 
 ## 2.2 Mapping the real world problem to a Machine Learning Problem
-### ### 2.2.1 Type of Machine Learning Problem
+### 2.2.1 Type of Machine Learning Problem
 
 For a given movie and user we need to predict the rating would be given by him/her to the movie. 
 The given problem is a Recommendation problem 
@@ -155,13 +89,6 @@ It can also seen as a Regression problem
 ### 3.3.3 Analysis on the Ratings given by user
 ### 3.3.4 Analysis of ratings of a movie given by a user 
 
-
-    It is very skewed.. just like nunmber of ratings given per user.
-
-- There are some movies (which are very popular) which are rated by huge number of users.
-
-- But most of the movies(like 90%) got some hundereds of ratings.
-
 ### 3.3.5 Number of ratings on each day of the week
 ### 3.3.6 Creating sparse matrix from data frame 
 ### 3.3.7 Finding Global average of all movie ratings, Average rating per user, and Average rating per movie
@@ -176,88 +103,7 @@ It can also seen as a Regression problem
 
 ### 3.4.1.2 Trying with reduced dimensions (Using TruncatedSVD for dimensionality reduction of user vector)
 
-    We have 405,041 users in out training set and computing similarities between them..( 17K dimensional vector..) is time consuming..
-
-    From above plot, It took roughly 8.88 sec for computing simlilar users for one user
-
-    We have 405,041 users with us in training set.
-
-    ${ 405041 \times 8.88 = 3596764.08 \sec } = 59946.068 \min = 999.101133333 \text{ hours} = 41.629213889 \text{ days}...$
-        Even if we run on 4 cores parallelly (a typical system now a days), It will still take almost 10 and 1/2 days.
-
-    IDEA: Instead, we will try to reduce the dimentsions using SVD, so that it might speed up the process...
-
-Here,
-
-    $\sum \longleftarrow$ (netflix_svd.singular_values_ )
-
-    $\bigvee^T \longleftarrow$ (netflix_svd.components_)
-
-    $\bigcup$ is not returned. instead Projection_of_X onto the new vectorspace is returned.
-
-    It uses randomized svd internally, which returns All 3 of them saperately. Use that instead.
-    
-
-    I think 500 dimensions is good enough
-
-    By just taking (20 to 30) latent factors, explained variance that we could get is 20 %.
-
-    To take it to 60%, we have to take almost 400 latent factors. It is not fare.
-
-    It basically is the gain of variance explained, if we add one additional latent factor to it.
-
-    By adding one by one latent factore too it, the _gain in expained variance with that addition is decreasing. (Obviously, because they are sorted that way).
-    LHS Graph:
-        x --- ( No of latent factos ),
-        y --- ( The variance explained by taking x latent factors)
-
-    More decrease in the line (RHS graph) :
-        We are getting more expained variance than before.
-    Less decrease in that line (RHS graph) :
-        We are not getting benifitted from adding latent factor furthur. This is what is shown in the plots.
-
-    RHS Graph:
-        x --- ( No of latent factors ),
-        y --- ( Gain n Expl_Var by taking one additional latent factor)
-
-
-
-: This is taking more time for each user than Original one.
-
-    from above plot, It took almost 12.18 for computing simlilar users for one user
-
-    We have 405041 users with us in training set.
-
-    ${ 405041 \times 12.18 ==== 4933399.38 \sec } ==== 82223.323 \min ==== 1370.388716667 \text{ hours} ==== 57.099529861 \text{ days}...$
-        Even we run on 4 cores parallelly (a typical system now a days), It will still take almost (14 - 15) days.
-
-    Why did this happen...??
-
-- Just think about it. It's not that difficult.
-
----------------------------------( sparse & dense..................get it ?? )-----------------------------------
-
-Is there any other way to compute user user similarity..??
-
--An alternative is to compute similar users for a particular user, whenenver required (ie., Run time)
-
-- We maintain a binary Vector for users, which tells us whether we already computed or not..
-- ***If not*** : 
-    - Compute top (let's just say, 1000) most similar users for this given user, and add this to our datastructure, so that we can just access it(similar users) without recomputing it again.
-    - 
-- ***If It is already Computed***:
-    - Just get it directly from our datastructure, which has that information.
-    - In production time, We might have to recompute similarities, if it is computed a long time ago. Because user preferences changes over time. If we could maintain some kind of Timer, which when expires, we have to update it ( recompute it ). 
-    - 
-- ***Which datastructure to use:***
-    - It is purely implementation dependant. 
-    - One simple method is to maintain a **Dictionary Of Dictionaries**.
-        - 
-        - **key    :** _userid_ 
-        - __value__: _Again a dictionary_
-            - __key__  : _Similar User_
-            - __value__: _Similarity Value_
-
+   
 ### 3.4.2 Computing Movie-Movie Similarity matrix
 
 
